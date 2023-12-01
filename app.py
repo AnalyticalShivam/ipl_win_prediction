@@ -25,7 +25,7 @@ teams = ['Sunrisers Hyderabad',
 # declaring the venues
 
 
-cities = ['Hyderabad', 'Bangalore', 'Mumbai', 'Indore', 'Kolkata', 'Delhi',
+cities = ['Hyderabad', 'Mumbai', 'Indore', 'Kolkata', 'Delhi',
 
           'Chandigarh', 'Jaipur', 'Chennai', 'Cape Town', 'Port Elizabeth',
 
@@ -66,16 +66,20 @@ with col4:
 with col5:
     wickets = st.number_input('Wickets Fallen')
 
+
 if st.button('Predict Probability'):
     runs_left = target - score
-    balls_left = 120 - (overs * 6)
+    balls_left = 120 - (overs * 6) if overs != 0 else 120  # Check if overs is zero
     wickets = 10 - wickets
     if overs != 0:
         currentrunrate = score / overs
     else:
         currentrunrate = 0
-    requiredrunrate = (runs_left * 6) / balls_left
-
+    if balls_left != 0:  # Check if balls_left is zero before division
+        requiredrunrate = (runs_left * 6) / balls_left
+    else:
+        requiredrunrate = 0
+   
     input_df = pd.DataFrame(
         {'batting_team': [battingteam], 'bowling_team': [bowlingteam], 'city': [city], 'runs_left': [runs_left],
          'balls_left': [
